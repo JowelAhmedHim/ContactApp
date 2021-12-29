@@ -37,10 +37,10 @@ public class AddEditContact extends AppCompatActivity {
     private FloatingActionButton fab;
 
     //String variable;
-    String name,phone,email,note;
+    private String name,phone,email,note;
 
     //action bar
-    ActionBar actionBar;
+    private ActionBar actionBar;
 
     //permission constant
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -55,6 +55,9 @@ public class AddEditContact extends AppCompatActivity {
     //Image uri var
     private Uri imageUri;
 
+    //database helper
+    private DbHelper dbHelper;
+
 
 
 
@@ -62,6 +65,9 @@ public class AddEditContact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_contact);
+
+        //init db
+        dbHelper = new DbHelper(this);
 
         //init permission
         cameraPermission = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -171,10 +177,26 @@ public class AddEditContact extends AppCompatActivity {
         email = emailEt.getText().toString();
         note = noteEt.getText().toString();
 
+        // get current time to save as added time
+        String timeStamp = ""+System.currentTimeMillis();
+
         //check filed data
         if (!name.isEmpty() || !phone.isEmpty() || !email.isEmpty() || !note.isEmpty()){
             //save data ,if user have only one data
             //function for save data on SQLite database
+
+            long id =  dbHelper.insertContact(
+                    ""+imageUri,
+                    ""+name,
+                    ""+phone,
+                    ""+email,
+                    ""+note,
+                    ""+timeStamp,
+                    ""+timeStamp
+            );
+
+            //To check insert data successfully ,show a toast message
+            Toast.makeText(getApplicationContext(), "Inserted "+id, Toast.LENGTH_SHORT).show();
 
         }else {
             // show toast message
@@ -304,6 +326,12 @@ public class AddEditContact extends AppCompatActivity {
     // next tutorial we create SQLite database and Add data.
 
     // create a class called "Constants" for database and table filed title
+
+    // now insert data in database from AddEditContact Class
+
+    // now run application , we done for our insert function
+
+    // so we create successfully insert function
 
 
 }

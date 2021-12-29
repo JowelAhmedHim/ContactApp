@@ -29,7 +29,7 @@ public class Constants {
             + C_EMAIL + " TEXT, "
             + C_NOTE + " TEXT, "
             + C_ADDED_TIME + " TEXT, "
-            + C_UPDATED_TIME + " TEXT, "
+            + C_UPDATED_TIME + " TEXT"
             + " );";
 
 
