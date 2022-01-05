@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -74,8 +75,34 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.main_top_menu,menu);
 
+        //get search item from menu
+        MenuItem item = menu.findItem(R.id.searchContact);
+        //search area
+        SearchView searchView = (SearchView) item.getActionView();
+        //set max value for width
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchContact(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchContact(newText);
+                return true;
+            }
+        });
+
+
         return true;
 
+    }
+
+    private void searchContact(String query) {
+        adapterContact = new AdapterContact(this,dbHelper.getSearchContact(query));
+        contactRv.setAdapter(adapterContact);
     }
 
     @Override
@@ -90,10 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
-
-
-
 
 
 

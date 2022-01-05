@@ -147,4 +147,40 @@ public class DbHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    // search data in sql Database
+    public ArrayList<ModelContact> getSearchContact(String query){
+
+        // it will return arraylist of modelContact class
+        ArrayList<ModelContact> contactList = new ArrayList<>();
+
+        // get readable database
+        SQLiteDatabase db = getReadableDatabase();
+
+        //query for search
+        String queryToSearch = "SELECT * FROM "+Constants.TABLE_NAME+" WHERE "+Constants.C_NAME + " LIKE '%" +query+"%'";
+
+        Cursor cursor = db.rawQuery(queryToSearch,null);
+
+        // looping through all record and add to list
+        if (cursor.moveToFirst()){
+            do {
+                ModelContact modelContact = new ModelContact(
+                        // only id is integer type
+                        ""+cursor.getInt(cursor.getColumnIndexOrThrow(Constants.C_ID)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_NAME)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_IMAGE)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_PHONE)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_EMAIL)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_NOTE)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_ADDED_TIME)),
+                        ""+cursor.getString(cursor.getColumnIndexOrThrow(Constants.C_UPDATED_TIME))
+                );
+                contactList.add(modelContact);
+            }while (cursor.moveToNext());
+        }
+        db.close();
+        return contactList;
+
+    }
+
 }
