@@ -316,22 +316,19 @@ public class AddEditContact extends AppCompatActivity {
         }
     }
 
-    //create view object in java file
-
+    // create view object in java file
     // Profile image taking with user permission and crop functionality
     // first permission from manifest,check,request permission
     // by clicking profileIv open dialog to choose image
     // pickImage and save in ImageUri variable
     // create activity for crop image in manifest file
     // next tutorial we create SQLite database and Add data.
-
     // create a class called "Constants" for database and table filed title
-
     // now insert data in database from AddEditContact Class
-
     // now run application , we done for our insert function
 
-    // so we create successfully insert function
+
+
 
 
 }
