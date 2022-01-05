@@ -46,6 +46,9 @@ dependencies {
     //image crop dependency
     implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
 
+    //for swapping layout
+    implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1"
+
 
 
 

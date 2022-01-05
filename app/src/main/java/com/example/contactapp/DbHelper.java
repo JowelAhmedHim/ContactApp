@@ -68,6 +68,53 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    // Update Function to update data in database
+    public void updateContact(String id,String image,String name,String phone,String email,String note,String addedTime,String updatedTime){
+
+        //get writable database to write data on db
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // create ContentValue class object to save data
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(Constants.C_IMAGE,image);
+        contentValues.put(Constants.C_NAME,name);
+        contentValues.put(Constants.C_PHONE,phone);
+        contentValues.put(Constants.C_EMAIL,email);
+        contentValues.put(Constants.C_NOTE,note);
+        contentValues.put(Constants.C_ADDED_TIME,addedTime);
+        contentValues.put(Constants.C_UPDATED_TIME,updatedTime);
+
+        //update data in row, It will return id of record
+        db.update(Constants.TABLE_NAME,contentValues,Constants.C_ID+" =? ",new String[]{id} );
+
+        // close db
+        db.close();
+
+    }
+
+    // delete data by id
+    public void deleteContact(String id){
+        //get writable database
+        SQLiteDatabase db =  getWritableDatabase();
+
+        //delete query
+        db.delete(Constants.TABLE_NAME,"WHERE"+" =? ",new String[]{id});
+
+        db.close();
+    }
+
+    // delete all data
+    public void deleteAllContact(){
+        //get writable database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //query for delete
+        db.execSQL("DELETE FROM "+Constants.TABLE_NAME);
+        db.close();
+    }
+
+
     // get data
     public ArrayList<ModelContact> getAllData(){
         //create arrayList

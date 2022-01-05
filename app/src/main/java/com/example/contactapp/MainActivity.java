@@ -1,10 +1,15 @@
 package com.example.contactapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,10 +26,13 @@ public class MainActivity extends AppCompatActivity {
     //adapter
     private AdapterContact adapterContact;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         //init db
         dbHelper = new DbHelper(this);
@@ -41,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // move to new activity to add contact
                 Intent intent = new Intent(MainActivity.this,AddEditContact.class);
+                intent.putExtra("isEditMode",false);
                 startActivity(intent);
             }
         });
@@ -60,16 +69,32 @@ public class MainActivity extends AppCompatActivity {
         loadData(); // refresh data
     }
 
-    // To day we show our SQlite Data in RecyclerView
-    // For recyclerview item we need a item layout
-    // add recyclerview in main activity
-    // create model class for data
-    // create Adapter class to show data in recyclerview
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-    //get data from sql and show data in recyclerview by adapter
+        getMenuInflater().inflate(R.menu.main_top_menu,menu);
 
-    // to get data we need sql command in db helper
-    // run app
+        return true;
 
-    // create activity for detail of contact
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.deleteAllContact:
+                dbHelper.deleteAllContact();
+                onResume();
+                break;
+        }
+
+        return true;
+    }
+
+
+
+
+
+
+
 }

@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/parentLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="@color/colorSecondary"
-    app:cardElevation="@dimen/_5sdp"
-    app:cardUseCompatPadding="true">
+    android:background="@color/colorSecondary"
+    app:dragEdge="right"
+    app:mode="same_level">
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/contact_edit"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="match_parent"
+            android:text="Edit"
+            android:gravity="center"
+            android:background="#2196F3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/contact_delete"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="match_parent"
+            android:text="Delete"
+            android:gravity="center"
+            android:background="#F44336"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"/>
+    </LinearLayout>
     <RelativeLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
@@ -46,4 +75,6 @@
 
 
 
-</androidx.cardview.widget.CardView>
+
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

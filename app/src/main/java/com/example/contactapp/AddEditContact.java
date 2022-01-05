@@ -37,7 +37,8 @@ public class AddEditContact extends AppCompatActivity {
     private FloatingActionButton fab;
 
     //String variable;
-    private String name,phone,email,note;
+    private String id,image,name,phone,email,note,addedTime,updatedTime;
+    private Boolean isEditMode;
 
     //action bar
     private ActionBar actionBar;
@@ -76,8 +77,6 @@ public class AddEditContact extends AppCompatActivity {
         //init actionBar
         actionBar = getSupportActionBar();
 
-        //set title in action bar
-        actionBar.setTitle("Add Contact");
 
         //back button
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -90,6 +89,43 @@ public class AddEditContact extends AppCompatActivity {
         emailEt = findViewById(R.id.emailEt);
         noteEt = findViewById(R.id.noteEt);
         fab = findViewById(R.id.fab);
+
+        // get intent data
+        Intent intent = getIntent();
+        isEditMode = intent.getBooleanExtra("isEditMode",false);
+
+        if (isEditMode){
+            //set toolbar title
+            actionBar.setTitle("Update Contact");
+
+            //get the other value from intent
+            id = intent.getStringExtra("ID");
+            name = intent.getStringExtra("NAME");
+            phone = intent.getStringExtra("PHONE");
+            email = intent.getStringExtra("EMAIL");
+            note = intent.getStringExtra("NOTE");
+            addedTime = intent.getStringExtra("ADDEDTIME");
+            updatedTime = intent.getStringExtra("UPDATEDTIME");
+            image = intent.getStringExtra("IMAGE");
+
+            //set value in editText field
+            nameEt.setText(name);
+            phoneEt.setText(phone);
+            emailEt.setText(email);
+            noteEt.setText(note);
+
+            imageUri = Uri.parse(image);
+
+            if (image.equals("")){
+                profileIv.setImageResource(R.drawable.ic_baseline_person_24);
+            }else {
+                profileIv.setImageURI(imageUri);
+            }
+
+        }else {
+            // add mode on
+            actionBar.setTitle("Add Contact");
+        }
 
         // add even handler
         fab.setOnClickListener(new View.OnClickListener() {
@@ -180,27 +216,45 @@ public class AddEditContact extends AppCompatActivity {
         // get current time to save as added time
         String timeStamp = ""+System.currentTimeMillis();
 
+
         //check filed data
         if (!name.isEmpty() || !phone.isEmpty() || !email.isEmpty() || !note.isEmpty()){
             //save data ,if user have only one data
-            //function for save data on SQLite database
 
-            long id =  dbHelper.insertContact(
-                    ""+imageUri,
-                    ""+name,
-                    ""+phone,
-                    ""+email,
-                    ""+note,
-                    ""+timeStamp,
-                    ""+timeStamp
-            );
+            //check edit or add mode to save data in sql
+            if (isEditMode){
+                // edit mode
+                 dbHelper.updateContact(
+                        ""+id,
+                        ""+image,
+                        ""+name,
+                        ""+phone,
+                        ""+email,
+                        ""+note,
+                        ""+addedTime,
+                         ""+timeStamp // updated time will new time
+                );
 
-            //To check insert data successfully ,show a toast message
-            Toast.makeText(getApplicationContext(), "Inserted "+id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Updated Successfully....", Toast.LENGTH_SHORT).show();
+
+            }else {
+                // add mode
+                long id =  dbHelper.insertContact(
+                        ""+imageUri,
+                        ""+name,
+                        ""+phone,
+                        ""+email,
+                        ""+note,
+                        ""+timeStamp,
+                        ""+timeStamp
+                );
+                //To check insert data successfully ,show a toast message
+                Toast.makeText(getApplicationContext(), "Inserted Successfully.... "+id, Toast.LENGTH_SHORT).show();
+            }
 
         }else {
             // show toast message
-            Toast.makeText(getApplicationContext(), "Nothing to save..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Nothing to save....", Toast.LENGTH_SHORT).show();
         }
 
     }
